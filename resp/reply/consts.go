@@ -52,6 +52,11 @@ func (r *EmptyMultiBulkReply) ToBytes() []byte {
 	return emptyMultiBulkBytes
 }
 
+// MakeEmptyMultiBulkReply creates EmptyMultiBulkReply
+func MakeEmptyMultiBulkReply() *EmptyMultiBulkReply {
+	return &EmptyMultiBulkReply{}
+}
+
 // NoReply respond nothing, for commands like subscribe
 type NoReply struct{}
 
@@ -60,4 +65,21 @@ var noBytes = []byte("")
 // ToBytes marshal redis.Reply
 func (r *NoReply) ToBytes() []byte {
 	return noBytes
+}
+
+// QueuedReply is +QUEUED
+type QueuedReply struct{}
+
+var queuedBytes = []byte("+QUEUED\r\n")
+
+// ToBytes marshal redis.Reply
+func (r *QueuedReply) ToBytes() []byte {
+	return queuedBytes
+}
+
+var theQueuedReply = new(QueuedReply)
+
+// MakeQueuedReply returns a QUEUED reply
+func MakeQueuedReply() *QueuedReply {
+	return theQueuedReply
 }

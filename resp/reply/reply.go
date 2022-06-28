@@ -65,6 +65,31 @@ func (r *MultiBulkReply) ToBytes() []byte {
 	return buf.Bytes()
 }
 
+/* ---- Multi Raw Reply ---- */
+
+// MultiRawReply store complex list structure, for example GeoPos command
+type MultiRawReply struct {
+	Replies []resp.Reply
+}
+
+// MakeMultiRawReply creates MultiRawReply
+func MakeMultiRawReply(replies []resp.Reply) *MultiRawReply {
+	return &MultiRawReply{
+		Replies: replies,
+	}
+}
+
+// ToBytes marshal redis.Reply
+func (r *MultiRawReply) ToBytes() []byte {
+	argLen := len(r.Replies)
+	var buf bytes.Buffer
+	buf.WriteString("*" + strconv.Itoa(argLen) + CRLF)
+	for _, arg := range r.Replies {
+		buf.Write(arg.ToBytes())
+	}
+	return buf.Bytes()
+}
+
 /* ---- Status Reply ---- */
 
 // StatusReply stores a simple status string

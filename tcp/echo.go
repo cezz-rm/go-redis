@@ -1,5 +1,9 @@
 package tcp
 
+/*
+ * A echo handler to test whether the handler is functioning normally
+ */
+
 import (
 	"bufio"
 	"context"
